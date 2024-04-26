@@ -7,11 +7,10 @@ import { useAuth } from '@modules/auth/hooks';
 
 const App = (): ReactElement => {
   const auth = useAuth();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    console.log('App-auth', auth.user);
-
-    if (localStorage.getItem('token')) {
+    if (token) {
       auth.check();
     }
   }, []);

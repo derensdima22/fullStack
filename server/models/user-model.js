@@ -8,6 +8,8 @@ const UserSchema = new Schema({
     address: {type: String},
     isActivate: {type: Boolean, default: false},
     activationLink: {type: String},
+    contactNumber: {type: String},
+    permissions: {type: Array},
 })
 
 module.exports = model('User', UserSchema);

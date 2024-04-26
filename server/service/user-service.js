@@ -14,8 +14,9 @@ class UserService {
         }
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4();
+        const permissions = ['all'];
 
-        const user = await UserModel.create({email, password: hashPassword, activationLink, name});
+        const user = await UserModel.create({email, password: hashPassword, activationLink, name, permissions});
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
         const userDto = new UserDto(user);
@@ -80,6 +81,30 @@ class UserService {
     async getAllUsers(refreshToken) {
         const users = UserModel.find();
         return users;
+    }
+
+    async getOneUser(id) {
+        const user = await UserModel.findById(id);
+        const userDto = new UserDto(user);
+
+        if(!userDto) {
+            throw ApiError.BadRequest('No user with this name was found');
+        }
+        
+        return userDto;
+    }
+
+    async patchOneUser(id, body) {
+        const user = await UserModel.findById(id);
+        const { name, number, address, contactNumber } = body;
+        user.name = name || user.name;
+        user.address = address || user.address;
+        user.number = number || user.number;
+        user.contactNumber = contactNumber || user.contactNumber;
+       
+        await user.save();
+
+        return user;
     }
 
     async edit(result) {

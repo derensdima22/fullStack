@@ -1,8 +1,9 @@
 import { LayoutsMenuSections } from '@layouts/types';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
-export const usersMenu: LayoutsMenuSections = {
+export const brandMenu: LayoutsMenuSections = {
   icon: PeopleAltIcon,
-  path: '/users',
-  title: 'Użytkownicy',
+  permissions: [],
+  path: '/brand',
+  title: 'Brand',
 };

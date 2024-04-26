@@ -34,9 +34,7 @@
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
     "comma-dangle": "off",
-    "@typescript-eslint/comma-spacing": [
-      "warn"
-    ],
+    "@typescript-eslint/comma-spacing": ["warn"],
     "comma-spacing": "off",
     "spaced-comment": "off",
     "react/react-in-jsx-scope": "off",

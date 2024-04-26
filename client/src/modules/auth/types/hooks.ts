@@ -1,5 +1,5 @@
 import { UserType } from '@app/models/UserType';
-import { RequestStatus } from '@core/types';
+import { ModalFormProfileValues, RequestStatus } from '@core/types';
 import { AuthIncompleteRegistrationFormValues, AuthResponse } from '@modules/auth/types';
 
 export interface UseAuthReturn {
@@ -10,10 +10,12 @@ export interface UseAuthReturn {
   isAuth: boolean;
   login: (value: AuthLoginValue) => Promise<AuthResponse>;
   registration: (value: AuthRegistrationValue) => Promise<AuthResponse>;
-  logout: () => void;
+  logout: () => Promise<void>;
   check: () => Promise<AuthResponse>;
   saveForm: (value: AuthIncompleteRegistrationFormValues) => void;
-  edit: (value: any) => void;
+  edit: (value: ModalFormProfileValues) => Promise<AuthResponse>;
+  load: (id: string) => void;
+  can: (required: string[], compare?: AuthPermissionsCompareType) => boolean;
 }
 
 export interface AuthLoginValue {
@@ -28,3 +30,5 @@ export interface AuthRegistrationValue {
   firstName: string;
   rememberMe?: boolean;
 }
+
+export type AuthPermissionsCompareType = 'some' | 'every';

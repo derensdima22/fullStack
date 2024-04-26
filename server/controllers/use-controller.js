@@ -9,6 +9,7 @@ class UseController {
             if(!errors.isEmpty()) {
                return  next(ApiError.BadRequest('Validation error', errors.array()));
             }
+
             const { email, password, name } = req.body;
             const userData = await userService.registration(email, password, name);
 
@@ -70,6 +71,28 @@ class UseController {
         try {
             const users = await userService.getAllUsers();
             return res.json(users);
+        }catch (e) {
+            next(e);
+        }
+    }
+
+    async getOneUser(req, res, next){
+        try {
+            const id = req.params.id;
+            const user = await userService.getOneUser(id);
+            return res.json(user);
+        }catch (e) {
+            next(e);
+        }
+    }
+
+    async updateUser(req, res, next){
+        try {
+            const id = req.params.id;
+            const body = req.body;
+
+            const user = await userService.patchOneUser(id, body);
+            return res.json(user);
         }catch (e) {
             next(e);
         }

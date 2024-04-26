@@ -26,9 +26,9 @@ export const AuthLoginForm = (props: AuthLoginFormProps): ReactElement => {
     password: yup
       .string()
       .required('Password is required field'),
-    // rememberMe: yup
-    //   .boolean()
-    //   .optional(),
+    rememberMe: yup
+      .boolean()
+      .optional(),
   });
 
   const methods = useForm<AuthLoginFormValues>({

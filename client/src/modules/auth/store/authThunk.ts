@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthLoginRequestValue, AuthResponse } from '../types';
-import { authChecked, authEdit, authLogin, authLogout, authRegistration } from '../fetches';
+import { AuthEditRequestValue, AuthLoginRequestValue, AuthResponse } from '@modules/auth/types';
+import { authChecked, authEdit, authGetUser, authLogin, authLogout, authRegistration } from '@modules/auth/fetches';
 import { BaseAsyncThunkOptions } from '@core/types/store';
+import { UserType } from '@app/models/UserType';
 
 export const authLoginRequest = createAsyncThunk<
   AuthResponse,
@@ -12,8 +13,12 @@ export const authLoginRequest = createAsyncThunk<
   async (data, thunkApi) => {
     try {
       const response = await authLogin(data);
-      localStorage.setItem('token', response.data.accessToken);
-      console.log('response', response);
+
+      if (data.rememberMe) {
+        localStorage.setItem('token', response.data.accessToken);
+      } else {
+        sessionStorage.setItem('token', response.data.accessToken);
+      }
 
       return response.data;
     } catch (error) {
@@ -31,7 +36,12 @@ export const authRegistrationRequest = createAsyncThunk<
   async (data, thunkApi) => {
     try {
       const response = await authRegistration(data);
-      localStorage.setItem('token', response.data.accessToken);
+
+      if (data.rememberMe) {
+        localStorage.setItem('token', response.data.accessToken);
+      } else {
+        sessionStorage.setItem('token', response.data.accessToken);
+      }
 
       return response.data;
     } catch (error) {
@@ -68,6 +78,7 @@ export const authLogoutRequest = createAsyncThunk<
     try {
       const response = await authLogout();
       localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
 
       return void response;
     } catch (error) {
@@ -76,16 +87,32 @@ export const authLogoutRequest = createAsyncThunk<
   }
 );
 
+export const authUserRequest = createAsyncThunk<
+  UserType,
+  string,
+  BaseAsyncThunkOptions
+>(
+  'auth/user',
+  async (id, thunkApi) => {
+    try {
+      const response = await authGetUser(id);
+
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
 export const authEditRequest = createAsyncThunk<
   AuthResponse,
-  AuthLoginRequestValue,
+  AuthEditRequestValue,
   BaseAsyncThunkOptions
 >(
   'auth/edit',
   async (data, thunkApi) => {
     try {
       const response = await authEdit(data);
-      console.log('response', response);
 
       return response.data;
     } catch (error) {

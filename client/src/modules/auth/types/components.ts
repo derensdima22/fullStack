@@ -1,5 +1,6 @@
 import { RequestStatus } from '@core/types/store';
-import { AuthLoginValue, AuthRegistrationValue } from '@modules/auth/types';
+import { AuthLoginValue, AuthPermissionsCompareType, AuthRegistrationValue } from '@modules/auth/types';
+import { ReactElement, ReactNode } from 'react';
 
 export interface AuthLoginFormProps {
   status: RequestStatus;
@@ -37,3 +38,8 @@ export interface AuthRegistrationFormValues {
   rememberMe?: boolean;
 }
 
+export interface AuthElementPermissionsProps {
+  children: ReactElement | ReactNode[];
+  permissions: string[];
+  compare?: AuthPermissionsCompareType;
+}

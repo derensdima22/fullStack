@@ -1,4 +1,5 @@
-import { FormControlLabelProps, TextFieldProps } from '@mui/material';
+import { UserType } from '@app/models/UserType';
+import { FormControlLabelProps, ModalProps, TextFieldProps } from '@mui/material';
 import { ReactNode } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 
@@ -22,3 +23,32 @@ export interface InputTextFieldProps extends FieldWrapperProps, Omit<TextFieldPr
   autoCompleteOff?: string;
   className?: string;
 }
+
+export interface ProfileType {
+  user: UserType;
+  status: string;
+  onClick: (props: ModalFormProfileValues) => void;
+  isLoadState: boolean;
+}
+
+export interface ProfileInfoType extends Omit<ProfileType, 'onClick' | 'isLoadState'> {
+}
+
+export interface BaseModalProps extends Omit<ModalProps, 'children'> {
+  children?: ReactNode;
+}
+
+export interface ModalWrapperProps extends BaseModalProps {
+  header: string;
+}
+
+export interface ModalFormProfileType {
+  mode: 'create' | 'edit';
+  status: string;
+  className?: string;
+  user?: UserType;
+  onClick: (props: ModalFormProfileValues) => void;
+}
+
+export interface ModalFormProfileValues
+  extends Omit<UserType, 'email' | 'isActivated'>{}

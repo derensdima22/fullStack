@@ -5,11 +5,13 @@ import {
   authCheckRequest,
   authEditRequest,
   authLoginRequest,
-  authRegistrationRequest
+  authRegistrationRequest,
+  authUserRequest
 } from '@modules/auth/store';
 
 export const initialState: AuthSLiceState = {
   user: {} as UserType,
+  permissions: [],
   isAuth: false,
   status: 'unset',
   checked: false,
@@ -35,6 +37,7 @@ export const authSlice = createSlice({
 
     builder.addCase(authLoginRequest.fulfilled, (state, { payload }) => {
       state.status = 'success';
+      state.permissions = payload.user.permissions;
       state.checked = true;
       state.user = payload.user;
     });
@@ -53,6 +56,7 @@ export const authSlice = createSlice({
 
     builder.addCase(authCheckRequest.fulfilled, (state, { payload }) => {
       state.status = 'success';
+      state.permissions = payload.user.permissions;
       state.checked = true;
       state.user = payload.user;
     });
@@ -89,11 +93,31 @@ export const authSlice = createSlice({
 
     builder.addCase(authRegistrationRequest.fulfilled, (state, { payload }) => {
       state.status = 'success';
+      state.permissions = payload.user.permissions;
       state.checked = true;
       state.user = payload.user;
     });
 
     builder.addCase(authRegistrationRequest.rejected, (state) => {
+      state.status = 'error';
+    });
+
+        // -----------------------------------------------------------------------------------------------
+    // @ USER
+    // -----------------------------------------------------------------------------------------------
+
+    builder.addCase(authUserRequest.pending, (state) => {
+      state.status = 'loading';
+    });
+
+    builder.addCase(authUserRequest.fulfilled, (state, { payload }) => {
+      state.status = 'success';
+      state.permissions = payload.permissions;
+      state.checked = true;
+      state.user = payload;
+    });
+
+    builder.addCase(authUserRequest.rejected, (state) => {
       state.status = 'error';
     });
   }

@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React, { ReactElement } from 'react';
 import { Outlet } from 'react-router-dom';
 
-const UsersModule = (): ReactElement => {
+const BrandModule = (): ReactElement => {
   return (
     <Box className="flex h-full flex-col flex-1">
       Użytkownicy
@@ -11,4 +11,4 @@ const UsersModule = (): ReactElement => {
   );
 };
 
-export default UsersModule;
+export default BrandModule;

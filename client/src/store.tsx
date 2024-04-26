@@ -6,6 +6,10 @@ export const store = configureStore({
   reducer: {
     [authSlice.name]: authSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type AppDispatchType = typeof store.dispatch;

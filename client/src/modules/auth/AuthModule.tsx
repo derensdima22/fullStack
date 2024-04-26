@@ -1,13 +1,14 @@
+import classNames from 'classnames';
 import { Box, Container } from '@mui/material';
 import { ReactElement, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from './hooks';
-import classNames from 'classnames';
+import { useAuth } from '@modules/auth/hooks';
 
 const AuthModule = (): ReactElement => {
   const auth = useAuth();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  const tokenSession = sessionStorage.getItem('token');
 
   useEffect(() => {
     if (token) {
